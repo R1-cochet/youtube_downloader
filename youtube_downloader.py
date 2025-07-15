@@ -19,15 +19,19 @@ def descargar_audio(url):
         ydl_opts = {
             'format': 'bestaudio/best',
             'outtmpl': '%(title)s.%(ext)s',
+            'ignoreerrors': True,
+            'no_abort_on_error': True,
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',  # Establecer el formato de salida a MP3
-                'preferredquality': '192',  # Calidad del MP3
+                'preferredquality': '0',  # Calidad del MP3
             }],
             'postprocessor_args': [
                 '-ar', '16000'  # Opcional: cambiar la tasa de muestreo
             ],
             'prefer_ffmpeg': True,  # Asegúrate de que FFmpeg se use para la conversión
+            'noplaylist': False,
+            'extractaudio': True,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(url, download=True)
